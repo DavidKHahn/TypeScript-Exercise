@@ -1,7 +1,7 @@
 import * as React from 'react';
 import CardList from '../components/CardList';
-import SearchBox from '../components/SearchBox';
 import Scroll from '../components/Scroll';
+import SearchBox from '../components/SearchBox';
 import './App.css';
 
 export interface IRobot {
@@ -17,27 +17,27 @@ interface IAppState {
   robots: Array<IRobot>;
   searchfield: string;
 }
-
+// common Typescript practice to pass in interface props, state in React
 class App extends React.Component<IAppProps, IAppState> {
-  constructor(props) {
+  constructor(props: IAppProps) {
     super(props)
     this.state = {
       robots: [],
       searchfield: ''
     }
   }
-
-  componentDidMount() {
+// 'void' is passed in since there is nothing being 'returned'
+  componentDidMount(): void {
     fetch('https://jsonplaceholder.typicode.com/users')
       .then(response=> response.json())
       .then(users => {this.setState({ robots: users})});
   }
-
-  onSearchChange = (event) => {
+// 'void' is passed in since there is nothing being 'returned'
+  onSearchChange = (event:React.SyntheticEvent<HTMLInputElement>):void => {
     this.setState({ searchfield: event.currentTarget.value })
   }
-
-  render() {
+// JSX.Element is returned so no 'void' here
+  render():JSX.Element {
     const { robots, searchfield } = this.state;
     const filteredRobots = robots.filter(robot =>{
       return robot.name.toLowerCase().includes(searchfield.toLowerCase());
